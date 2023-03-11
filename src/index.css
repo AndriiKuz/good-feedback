@@ -1,7 +1,19 @@
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
+<<<<<<< HEAD
   display: flex;
   justify-content: center;
   margin: 0;
+=======
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+>>>>>>> deploy
   overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

@@ -1,18 +1,24 @@
 header {
+<<<<<<< HEAD
   max-width: 1200px;
+=======
+>>>>>>> deploy
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .header {
+<<<<<<< HEAD
   width: 83%;
+=======
+  width: 80%;
+>>>>>>> deploy
 }
 
 .main-image {
   transform: translate(0, -20%);
-  max-width: 100%;
-  height: auto;
+  width: 100%;
 }
 
 a {

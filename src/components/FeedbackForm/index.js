@@ -81,7 +81,7 @@ const FeedbackForm = () => {
       setRaiting(3);
       console.log(response.text);
     } catch (error) {
-      alert('Щось пішло не так, спробуйте пізніше.');
+      alert('Щось пішло не так, спробуйте пізніше');
       setLoading(false);
       console.log(error.text);
     }

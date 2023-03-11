@@ -34,6 +34,14 @@ const FeedbackForm = () => {
     }, 3000);
   };
 
+  const raitingHandler = (event, newRaiting) => {
+    if (!newRaiting) {
+      setRaiting(0);
+    } else {
+      setRaiting(newRaiting);
+    }
+  };
+
   const sendEmail = async (e) => {
     e.preventDefault();
     if (
@@ -73,7 +81,7 @@ const FeedbackForm = () => {
       setRaiting(3);
       console.log(response.text);
     } catch (error) {
-      alert('Щось пішло не так, спробуйте пізніше.');
+      alert('Щось пішло не так, спробуйте пізніше');
       setLoading(false);
       console.log(error.text);
     }
@@ -123,9 +131,9 @@ const FeedbackForm = () => {
                 value={raiting}
                 size="large"
                 sx={{ fontSize: '36px' }}
-                onChange={(event, newRaiting) => {
-                  setRaiting(newRaiting);
-                }}
+                onChange={(event, newRaiting) =>
+                  raitingHandler(event, newRaiting)
+                }
               />
               <Typography
                 component="legend"

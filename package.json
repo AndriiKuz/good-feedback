@@ -2,6 +2,7 @@
   "name": "goodfeedback",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://good-feedback.vercel.app/",
   "dependencies": {
     "@emailjs/browser": "^3.10.0",
     "@emotion/react": "^11.10.6",

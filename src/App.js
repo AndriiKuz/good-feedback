@@ -1,6 +1,5 @@
 import Main from './components/Header';
 import FeedbackForm from './components/FeedbackForm';
-import './App.css';
 
 function App() {
   return (

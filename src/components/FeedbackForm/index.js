@@ -34,6 +34,14 @@ const FeedbackForm = () => {
     }, 3000);
   };
 
+  const raitingHandler = (event, newRaiting) => {
+    if (!newRaiting) {
+      setRaiting(0);
+    } else {
+      setRaiting(newRaiting);
+    }
+  };
+
   const sendEmail = async (e) => {
     e.preventDefault();
     if (
@@ -101,7 +109,7 @@ const FeedbackForm = () => {
           address: Yup.string()
             .min(2, 'Мінімум 2 символи!')
             .required('Будь ласка, заповніть це поле'),
-          ad: Yup.string().required('Будь ласка,виберіть один варіант!'),
+          ad: Yup.string().required('Будь ласка, виберіть один варіант!'),
           text: Yup.string().min(10, 'Мінімум 10 символів!'),
         })}
       >
@@ -123,9 +131,9 @@ const FeedbackForm = () => {
                 value={raiting}
                 size="large"
                 sx={{ fontSize: '36px' }}
-                onChange={(event, newRaiting) => {
-                  setRaiting(newRaiting);
-                }}
+                onChange={(event, newRaiting) =>
+                  raitingHandler(event, newRaiting)
+                }
               />
               <Typography
                 component="legend"

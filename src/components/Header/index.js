@@ -13,46 +13,54 @@ const Header = () => {
     <header>
       <Box
         display="flex"
-        justifyContent="space-between"
+        flexDirection="column"
         alignItems="center"
-        mt={3}
-        sx={{ padding: '0 10% 0 10% ' }}
-        className="header"
+        sx={{ maxWidth: '1200px' }}
       >
-        <IconLink href="https://goodsushi.if.ua/" src={logo} alt="logo " />
-
         <Box
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          sx={{ gap: '8px' }}
+          mt={3}
+          sx={{ padding: '0 10% 0 10% ' }}
+          className="header"
         >
-          <IconLink
-            href="https://goodsushi.if.ua/"
-            src={homeIcon}
-            alt="home icon"
-          />
+          <IconLink href="https://goodsushi.if.ua/" src={logo} alt="logo " />
 
-          <IconLink
-            href="https://www.instagram.com/goodsushipizza/"
-            src={instagramIcon}
-            alt="instagram icon"
-          />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ gap: '8px' }}
+          >
+            <IconLink
+              href="https://goodsushi.if.ua/"
+              src={homeIcon}
+              alt="home icon"
+            />
 
-          <IconLink
-            href="https://www.facebook.com/goodsushipizza"
-            src={facebookIcon}
-            alt="facebook icon"
-          />
+            <IconLink
+              href="https://www.instagram.com/goodsushipizza/"
+              src={instagramIcon}
+              alt="instagram icon"
+            />
 
-          <IconLink
-            href="https://www.tiktok.com/@goodsushipizza"
-            src={tikTokIcon}
-            alt="tik tok icon"
-          />
+            <IconLink
+              href="https://www.facebook.com/goodsushipizza"
+              src={facebookIcon}
+              alt="facebook icon"
+            />
+
+            <IconLink
+              href="https://www.tiktok.com/@goodsushipizza"
+              src={tikTokIcon}
+              alt="tik tok icon"
+            />
+          </Box>
         </Box>
+
+        <img className="main-image" src={mainImg} alt="main" />
       </Box>
-      <img className="main-image" src={mainImg} alt="main" />
     </header>
   );
 };

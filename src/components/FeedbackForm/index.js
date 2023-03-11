@@ -101,7 +101,7 @@ const FeedbackForm = () => {
           address: Yup.string()
             .min(2, 'Мінімум 2 символи!')
             .required('Будь ласка, заповніть це поле'),
-          ad: Yup.string().required('Будь ласка,виберіть один варіант!'),
+          ad: Yup.string().required('Будь ласка, виберіть один варіант!'),
           text: Yup.string().min(10, 'Мінімум 10 символів!'),
         })}
       >

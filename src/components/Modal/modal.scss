@@ -1,6 +1,6 @@
 .modal {
   position: fixed;
-  top: 55%;
+  top: 55.5%;
   left: 50%;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@
   transition: opacity 0.5s ease-in-out, visibility 0s linear 0.3s;
 
   & .modal-img {
-    max-width: 100%;
+    width: 100%;
   }
 }
 

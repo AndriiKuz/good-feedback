@@ -3,6 +3,7 @@
   font-weight: 600 !important;
   border-radius: 10px !important;
   height: 40px;
+  width: 100%;
   &:hover {
     background: #ff6325 !important;
   }
@@ -97,4 +98,38 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-text-fill-color: inherit;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.add-file-btn {
+  background: none !important;
+  // height: 40px;
+  // width: 40px;
+  // margin: 0;
+}
+
+.camera-icon {
+  color: #f15b22;
+}
+
+.camera-icon:hover {
+  border-color: #ff6325 !important;
+  color: #ff6325 !important;
+}
+
+.preview {
+  height: 24px;
+  width: auto;
+  position: absolute;
+  left: 40px;
+  bottom: 8px;
+}
+
+.textarea-wrapper {
+  position: relative;
+}
+
+.add-file-container {
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }

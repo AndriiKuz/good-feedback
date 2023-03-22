@@ -1,89 +1,100 @@
 import { useState, useRef } from 'react';
+import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import emailjs from '@emailjs/browser';
 import Spinner from '../Spinner';
 import Modal from '../Modal';
 import './feedbackform.scss';
 
 const FeedbackForm = () => {
-  const form = useRef();
-  const modal = useRef();
-  const name = useRef();
-  const address = useRef();
-  const tel = useRef();
-  const ad = useRef();
-  const text = useRef();
+  const formRef = useRef();
+  const modalRef = useRef();
+  const nameRef = useRef();
+  const addressRef = useRef();
+  const telRef = useRef();
+  const adRef = useRef();
+  const textRef = useRef();
 
-  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState(null);
   const [raiting, setRaiting] = useState(3);
+  const [loading, setLoading] = useState(false);
 
   const phoneRegExp = /^((\+38|)+([0-9]){10})$/;
   const nameRegExp =
     /^([a-zA-Zа-яА-ЯіІїЇєЄ]+\s?)+([a-zA-Zа-яА-ЯіІїЇєЄ]+-?[a-zA-Zа-яА-ЯіІїЇєЄ]+\s?)*$/;
 
   const showModal = () => {
-    modal.current.classList.add('show');
+    modalRef.current.classList.add('show');
     setTimeout(() => {
-      modal.current.classList.remove('show');
+      modalRef.current.classList.remove('show');
     }, 3000);
   };
 
-  const raitingHandler = (event, newRaiting) => {
-    if (!newRaiting) {
-      setRaiting(0);
-    } else {
-      setRaiting(newRaiting);
-    }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
   };
 
-  const sendEmail = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     if (
-      !form.current.name.value ||
-      !form.current.address.value ||
-      !form.current.tel.value ||
-      !form.current.ad.value ||
-      !form.current.text.value
+      !formRef.current.name.value ||
+      !formRef.current.address.value ||
+      !formRef.current.tel.value ||
+      !formRef.current.ad.value ||
+      !formRef.current.text.value
     ) {
       alert('Будь ласка, заповніть форму');
       return;
     }
 
     if (
-      name.current.children[2] ||
-      address.current.children[2] ||
-      tel.current.children[2] ||
-      ad.current.children[3] ||
-      text.current.children[2]
+      nameRef.current.children[2] ||
+      addressRef.current.children[2] ||
+      telRef.current.children[2] ||
+      adRef.current.children[3] ||
+      textRef.current.children[1]
     ) {
       alert('Будь ласка, заповніть коректно поля');
       return;
     }
 
-    setLoading(true);
-    const response = await emailjs.sendForm(
-      'service_t9e135w',
-      'template_kq4nn7u',
-      form.current,
-      'v9q1y1jNay2FbVapM'
-    );
+    const formData = new FormData();
+    formData.append('name', formRef.current.name.value);
+    formData.append('tel', formRef.current.tel.value);
+    formData.append('address', formRef.current.address.value);
+    formData.append('ad', formRef.current.ad.value);
+    formData.append('text', formRef.current.text.value);
+    formData.append('raiting', raiting);
+    if (file) {
+      formData.append('file', file);
+    }
 
     try {
+      setLoading(true);
+      const response = await axios.post(
+        'https://good-feedback-server.onrender.com/send',
+        formData
+      );
+      console.log(response.data);
       showModal();
       setLoading(false);
-      form.current.reset();
-      setRaiting(3);
-      console.log(response.text);
     } catch (error) {
-      alert('Щось пішло не так, спробуйте пізніше');
+      console.log(error);
+      alert('Щось пішло не так. Ваш відгук не відправлено. Спробуйте пізніше.');
+    } finally {
       setLoading(false);
-      console.log(error.text);
+      formRef.current.reset();
+      setRaiting(3);
+      setFile(null);
     }
   };
 
@@ -91,7 +102,6 @@ const FeedbackForm = () => {
     <main>
       <Formik
         initialValues={{
-          raiting,
           name: '',
           address: '',
           tel: '',
@@ -113,7 +123,7 @@ const FeedbackForm = () => {
           text: Yup.string().min(10, 'Мінімум 10 символів!'),
         })}
       >
-        <Form ref={form} className="form" onSubmit={sendEmail}>
+        <Form ref={formRef} className="form" onSubmit={handleSubmit}>
           <Box display="flex" flexDirection="column" alignItems="center">
             <Box
               display="flex"
@@ -131,9 +141,7 @@ const FeedbackForm = () => {
                 value={raiting}
                 size="large"
                 sx={{ fontSize: '36px' }}
-                onChange={(event, newRaiting) =>
-                  raitingHandler(event, newRaiting)
-                }
+                onChange={(event, newRaiting) => setRaiting(newRaiting)}
               />
               <Typography
                 component="legend"
@@ -157,7 +165,7 @@ const FeedbackForm = () => {
                   display="flex"
                   flexDirection="column"
                   sx={{ gap: '8px' }}
-                  ref={name}
+                  ref={nameRef}
                 >
                   <label htmlFor="name">Ім`я</label>
                   <Field
@@ -175,7 +183,7 @@ const FeedbackForm = () => {
                   display="flex"
                   flexDirection="column"
                   sx={{ gap: '8px' }}
-                  ref={address}
+                  ref={addressRef}
                 >
                   <label htmlFor="address">Адреса доставки</label>
                   <Field
@@ -197,7 +205,7 @@ const FeedbackForm = () => {
                   display="flex"
                   flexDirection="column"
                   sx={{ gap: '8px' }}
-                  ref={tel}
+                  ref={telRef}
                 >
                   <label htmlFor="tel">Телефон</label>
                   <Field
@@ -215,7 +223,7 @@ const FeedbackForm = () => {
                   display="flex"
                   flexDirection="column"
                   sx={{ gap: '8px' }}
-                  ref={ad}
+                  ref={adRef}
                 >
                   <label htmlFor="ad">Звідки про нас дізналися?</label>
                   <div className="select-wrapper">
@@ -238,15 +246,48 @@ const FeedbackForm = () => {
                   display="flex"
                   flexDirection="column"
                   sx={{ gap: '8px' }}
-                  ref={text}
+                  ref={textRef}
                 >
-                  <label htmlFor="text">Ваш відгук</label>
-                  <Field
-                    id="text"
-                    name="text"
-                    as="textarea"
-                    placeholder="Як вам наш сервіс сьогодні?"
-                  />
+                  <Box
+                    className="textarea-wrapper"
+                    display="flex"
+                    flexDirection="column"
+                    sx={{ gap: '8px' }}
+                  >
+                    <label htmlFor="text">Ваш відгук</label>
+                    <Field
+                      id="text"
+                      name="text"
+                      as="textarea"
+                      placeholder="Як вам наш сервіс сьогодні?"
+                    />
+
+                    <Box className="add-file-container">
+                      <IconButton
+                        name="file"
+                        aria-label="upload picture"
+                        component="label"
+                        className="add-file-btn"
+                      >
+                        <input
+                          hidden
+                          name="file"
+                          accept="image/*"
+                          type="file"
+                          onInput={(e) => handleFileChange(e)}
+                        />
+                        <AddAPhotoIcon className="camera-icon" />
+
+                        {file && (
+                          <img
+                            className="preview"
+                            src={URL.createObjectURL(file)}
+                            alt="Preview"
+                          />
+                        )}
+                      </IconButton>
+                    </Box>
+                  </Box>
                   <ErrorMessage className="error" name="text" component="div" />
                 </Box>
               </Grid>
@@ -254,7 +295,7 @@ const FeedbackForm = () => {
               <Grid item xs={12}>
                 <Box
                   display="flex"
-                  flexDirection="column"
+                  justifyContent="center"
                   sx={{ gap: '8px', marginTop: '10px' }}
                 >
                   {!loading ? (
@@ -276,7 +317,7 @@ const FeedbackForm = () => {
           </Box>
         </Form>
       </Formik>
-      <Modal ref={modal} />
+      <Modal ref={modalRef} />
     </main>
   );
 };

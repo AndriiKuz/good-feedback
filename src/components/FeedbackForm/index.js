@@ -127,22 +127,17 @@ const FeedbackForm = () => {
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              sx={{
-                '& > legend': { mt: 2 },
-                gap: '12px',
-                transform: 'translate(0, -40px)',
-              }}
+              sx={{ transform: 'translate(0, -40px)' }}
             >
               <Rating
                 name="raiting"
                 value={raiting}
-                size="large"
                 sx={{ fontSize: '36px' }}
                 onChange={(event, newRaiting) => setRaiting(newRaiting)}
               />
               <Typography
-                component="legend"
-                sx={{ fontSize: '18px', fontWeight: '600' }}
+                component="h1"
+                sx={{ fontSize: '18px', fontWeight: '600', mt: 3 }}
               >
                 ЗАГАЛЬНЕ ВРАЖЕННЯ
               </Typography>
@@ -204,9 +199,13 @@ const FeedbackForm = () => {
                   <div className="select-wrapper">
                     <Field id="ad" name="ad" as="select">
                       <option value="">Вибрати</option>
-                      <option value="Від друзів">Від друзів</option>
-                      <option value="Соціальні мережі">Соціальні мережі</option>
-                      <option value="Інтернет реклама">Інтернет реклама</option>
+                      <option value="від друзів">Рекомендації друзів</option>
+                      <option value="з соціальних мереж">
+                        Соціальні мережі
+                      </option>
+                      <option value="з інтернет реклами">
+                        Інтернет реклама
+                      </option>
                     </Field>
                   </div>
                   <ErrorMessage className="error" name="ad" component="div" />

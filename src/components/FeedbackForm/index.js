@@ -17,13 +17,12 @@ const FeedbackForm = () => {
   const formRef = useRef();
   const modalRef = useRef();
   const nameRef = useRef();
-  const addressRef = useRef();
   const telRef = useRef();
   const adRef = useRef();
   const textRef = useRef();
 
   const [file, setFile] = useState(null);
-  const [raiting, setRaiting] = useState(3);
+  const [raiting, setRaiting] = useState(5);
   const [loading, setLoading] = useState(false);
 
   const phoneRegExp = /^((\+38|)+([0-9]){10})$/;
@@ -47,7 +46,6 @@ const FeedbackForm = () => {
 
     if (
       !formRef.current.name.value ||
-      !formRef.current.address.value ||
       !formRef.current.tel.value ||
       !formRef.current.ad.value ||
       !formRef.current.text.value
@@ -58,7 +56,6 @@ const FeedbackForm = () => {
 
     if (
       nameRef.current.children[2] ||
-      addressRef.current.children[2] ||
       telRef.current.children[2] ||
       adRef.current.children[3] ||
       textRef.current.children[1]
@@ -70,7 +67,6 @@ const FeedbackForm = () => {
     const formData = new FormData();
     formData.append('name', formRef.current.name.value);
     formData.append('tel', formRef.current.tel.value);
-    formData.append('address', formRef.current.address.value);
     formData.append('ad', formRef.current.ad.value);
     formData.append('text', formRef.current.text.value);
     formData.append('raiting', raiting);
@@ -89,11 +85,13 @@ const FeedbackForm = () => {
       setLoading(false);
     } catch (error) {
       console.log(error);
-      alert('Щось пішло не так. Ваш відгук не відправлено. Спробуйте пізніше.');
+      alert(
+        'Упсс, щось пішло не так. Ваш відгук не відправлено. Спробуйте пізніше.'
+      );
     } finally {
       setLoading(false);
       formRef.current.reset();
-      setRaiting(3);
+      setRaiting(5);
       setFile(null);
     }
   };
@@ -103,24 +101,23 @@ const FeedbackForm = () => {
       <Formik
         initialValues={{
           name: '',
-          address: '',
           tel: '',
           ad: '',
           text: '',
         }}
         validationSchema={Yup.object({
           name: Yup.string()
-            .min(2, 'Мінімум 2 символи!')
+            .min(2, 'Ім`я надто коротке')
             .required('Будь ласка, заповніть це поле')
             .matches(nameRegExp, 'Некоректно введене ім`я'),
           tel: Yup.string()
             .required('Будь ласка, заповніть це поле')
             .matches(phoneRegExp, 'Некоректний номер телефону'),
-          address: Yup.string()
-            .min(2, 'Мінімум 2 символи!')
-            .required('Будь ласка, заповніть це поле'),
-          ad: Yup.string().required('Будь ласка, виберіть один варіант!'),
-          text: Yup.string().min(10, 'Мінімум 10 символів!'),
+          ad: Yup.string().required('Будь ласка, виберіть один варіант'),
+          text: Yup.string().min(
+            10,
+            'Ваш відгук надто короткий, напишіть нам більше'
+          ),
         })}
       >
         <Form ref={formRef} className="form" onSubmit={handleSubmit}>
@@ -183,28 +180,6 @@ const FeedbackForm = () => {
                   display="flex"
                   flexDirection="column"
                   sx={{ gap: '8px' }}
-                  ref={addressRef}
-                >
-                  <label htmlFor="address">Адреса доставки</label>
-                  <Field
-                    id="address"
-                    name="address"
-                    type="text"
-                    placeholder="вул. Незалежності 1"
-                  />
-                  <ErrorMessage
-                    className="error"
-                    name="address"
-                    component="div"
-                  />
-                </Box>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  sx={{ gap: '8px' }}
                   ref={telRef}
                 >
                   <label htmlFor="tel">Телефон</label>
@@ -230,11 +205,8 @@ const FeedbackForm = () => {
                     <Field id="ad" name="ad" as="select">
                       <option value="">Вибрати</option>
                       <option value="Від друзів">Від друзів</option>
-                      <option value="Зовнішня реклама">Зовнішня реклама</option>
+                      <option value="Соціальні мережі">Соціальні мережі</option>
                       <option value="Інтернет реклама">Інтернет реклама</option>
-                      <option value="Instagram">Instagram</option>
-                      <option value="Facebook">Facebook</option>
-                      <option value="TikTok">TikTok</option>
                     </Field>
                   </div>
                   <ErrorMessage className="error" name="ad" component="div" />

@@ -1,14 +1,14 @@
 .modal {
   position: fixed;
-  top: 55.5%;
+  top: 55.5vh;
   left: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: rgba(255, 255, 255, 0.75);
   z-index: 9999;
-  transform: translate(-50%, -50%) scale(150%);
-  width: 100%;
+  transform: translate(-50%, -50%) scale(1.5);
+  width: 100vw;
   height: 100vh;
   opacity: 0;
   visibility: hidden;
